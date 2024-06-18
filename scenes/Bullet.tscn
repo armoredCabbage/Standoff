@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://b6l1ekwouh6jl"]
+
+[ext_resource type="Texture2D" uid="uid://b8ihbqxlcjytm" path="res://assets/Bullet_Standing.png" id="1_bhr4d"]
+[ext_resource type="Script" path="res://scripts/Bullet.gd" id="1_y4yh4"]
+[ext_resource type="Texture2D" uid="uid://gg41lj0do15w" path="res://assets/Bullet_Standing_Higlighted.png" id="3_hul7c"]
+
+[node name="Bullet" type="Node2D"]
+script = ExtResource("1_y4yh4")
+
+[node name="BulletSprite" type="Sprite2D" parent="."]
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("1_bhr4d")
+
+[node name="Button" type="Button" parent="."]
+offset_left = -30.0
+offset_top = -89.0
+offset_right = 30.0
+offset_bottom = 89.0
+focus_mode = 0
+shortcut_feedback = false
+flat = true
+
+[node name="BulletHighlighted" type="Sprite2D" parent="."]
+visible = false
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("3_hul7c")
+
+[connection signal="mouse_entered" from="Button" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Button" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

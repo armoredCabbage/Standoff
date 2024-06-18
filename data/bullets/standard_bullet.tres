@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Bullet" load_steps=2 format=3 uid="uid://dtou5fr85rka0"]
+
+[ext_resource type="Script" path="res://data/bullets.gd" id="1_68n5y"]
+
+[resource]
+script = ExtResource("1_68n5y")
+name = "Standard Bullet"
+effectText = "Deal 1 Damage"
+type = "attack"
+power = 1

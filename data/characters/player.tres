@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Character" load_steps=2 format=3 uid="uid://drmu45xygkgvl"]
+
+[ext_resource type="Script" path="res://data/characters.gd" id="1_3j6mh"]
+
+[resource]
+script = ExtResource("1_3j6mh")
+name = "PlayerName"
+type = "player"
+healthPoint = 20

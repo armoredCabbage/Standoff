@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Bullet" load_steps=2 format=3 uid="uid://cwev4kyhnygw1"]
+
+[ext_resource type="Script" path="res://data/bullets.gd" id="1_jq816"]
+
+[resource]
+script = ExtResource("1_jq816")
+name = "Full Metal Bullet"
+effectText = "Deal 5 Damage"
+type = "attack"
+power = 5
+handIndex = 0

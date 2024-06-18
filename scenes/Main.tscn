@@ -1,0 +1,110 @@
+[gd_scene load_steps=15 format=3 uid="uid://cnw7neuqlhsd7"]
+
+[ext_resource type="Script" path="res://scripts/Main.gd" id="1_l4glu"]
+[ext_resource type="Texture2D" uid="uid://ds4ppgi0g0i76" path="res://assets/HP_Bar_Placeholder.png" id="11_1q704"]
+[ext_resource type="Resource" uid="uid://dtou5fr85rka0" path="res://data/bullets/standard_bullet.tres" id="13_2k8jg"]
+[ext_resource type="PackedScene" uid="uid://bgmpd6vng351f" path="res://scenes/GunCylinder.tscn" id="14_q02dn"]
+[ext_resource type="Resource" uid="uid://cwev4kyhnygw1" path="res://data/bullets/fullmetal_bullet.tres" id="15_74l3a"]
+[ext_resource type="PackedScene" uid="uid://d0sxag724tq58" path="res://scenes/Enemy.tscn" id="15_pwu8p"]
+[ext_resource type="PackedScene" uid="uid://dqjml7aieqyst" path="res://scenes/Deck.tscn" id="16_ou7be"]
+[ext_resource type="PackedScene" uid="uid://yine14m7efuu" path="res://scenes/Discard.tscn" id="17_8wsft"]
+[ext_resource type="PackedScene" uid="uid://dvj2w33sog2yo" path="res://scenes/Hand.tscn" id="18_5xkuh"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="18_ex0tc"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="19_sfsmu"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="20_kdjk2"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="21_p1pmc"]
+[ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="22_g3e81"]
+
+[node name="MainScreen" type="Node2D"]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_l4glu")
+
+[node name="HpBarPlaceholder" type="Sprite2D" parent="."]
+position = Vector2(960, 1032)
+scale = Vector2(2, 2)
+texture = ExtResource("11_1q704")
+
+[node name="DrawButton" type="Button" parent="."]
+offset_left = 1101.0
+offset_top = 700.0
+offset_right = 1259.0
+offset_bottom = 772.0
+focus_mode = 0
+text = "D R A W"
+
+[node name="EndTurnButton" type="Button" parent="."]
+offset_left = 1101.0
+offset_top = 700.0
+offset_right = 1259.0
+offset_bottom = 772.0
+focus_mode = 0
+text = "E N D  T U R N"
+
+[node name="Upkeep" type="Button" parent="."]
+visible = false
+offset_left = 1116.0
+offset_top = 511.0
+offset_right = 1274.0
+offset_bottom = 583.0
+focus_mode = 0
+text = "U P K E E P"
+
+[node name="Enemy" parent="." instance=ExtResource("15_pwu8p")]
+position = Vector2(960, 270)
+scale = Vector2(1.5, 1.5)
+
+[node name="Deck" parent="." instance=ExtResource("16_ou7be")]
+position = Vector2(1812, 910)
+bullets = Array[Resource("res://data/bullets.gd")]([ExtResource("13_2k8jg"), ExtResource("13_2k8jg"), ExtResource("13_2k8jg"), ExtResource("13_2k8jg"), ExtResource("15_74l3a"), ExtResource("15_74l3a"), ExtResource("15_74l3a"), ExtResource("15_74l3a")])
+
+[node name="Discard" parent="." instance=ExtResource("17_8wsft")]
+position = Vector2(157, 954)
+scale = Vector2(1.5, 1.5)
+
+[node name="Hand" parent="." instance=ExtResource("18_5xkuh")]
+position = Vector2(960, 907)
+
+[node name="StateChartDebugger" parent="." instance=ExtResource("22_g3e81")]
+offset_left = 1412.0
+offset_top = 20.0
+offset_right = 1902.0
+offset_bottom = 260.0
+initial_node_to_watch = NodePath("../StateChart")
+
+[node name="StateChart" type="Node" parent="."]
+script = ExtResource("18_ex0tc")
+
+[node name="CompoundState" type="Node" parent="StateChart"]
+script = ExtResource("19_sfsmu")
+initial_state = NodePath("PlayerUpkeep")
+
+[node name="PlayerUpkeep" type="Node" parent="StateChart/CompoundState"]
+script = ExtResource("20_kdjk2")
+
+[node name="ToPlayerDraw" type="Node" parent="StateChart/CompoundState/PlayerUpkeep"]
+script = ExtResource("21_p1pmc")
+to = NodePath("../../PlayerDraw")
+delay_in_seconds = "0.0"
+
+[node name="PlayerDraw" type="Node" parent="StateChart/CompoundState"]
+script = ExtResource("20_kdjk2")
+
+[node name="GunCylinder" parent="." instance=ExtResource("14_q02dn")]
+position = Vector2(960, 666)
+
+[connection signal="pressed" from="DrawButton" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="EndTurnButton" to="." method="_on_end_turn_button_pressed"]
+[connection signal="pressed" from="Upkeep" to="." method="_on_upkeep_pressed"]
+[connection signal="drawCards" from="Discard" to="." method="_on_discard_draw_cards"]
+[connection signal="timeout" from="Discard" to="." method="_on_discard_timeout"]
+[connection signal="button1_pressed" from="Hand" to="." method="_on_hand_button_1_pressed"]
+[connection signal="button2_pressed" from="Hand" to="." method="_on_hand_button_2_pressed"]
+[connection signal="button3_pressed" from="Hand" to="." method="_on_hand_button_3_pressed"]
+[connection signal="button4_pressed" from="Hand" to="." method="_on_hand_button_4_pressed"]
+[connection signal="button5_pressed" from="Hand" to="." method="_on_hand_button_5_pressed"]
+[connection signal="button6_pressed" from="Hand" to="." method="_on_hand_button_6_pressed"]
+[connection signal="button7_pressed" from="Hand" to="." method="_on_hand_button_7_pressed"]
+[connection signal="button8_pressed" from="Hand" to="." method="_on_hand_button_8_pressed"]
+[connection signal="timeout" from="Hand" to="." method="_on_hand_timeout"]
+[connection signal="all_bullets_shot" from="GunCylinder" to="." method="_on_gun_cylinder_all_bullets_shot"]
+[connection signal="cylinderLoadedRevolveAnimFinished" from="GunCylinder" to="." method="_on_gun_cylinder_cylinder_loaded_revolve_anim_finished"]

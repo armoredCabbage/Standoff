@@ -1,0 +1,76 @@
+[gd_scene load_steps=12 format=3 uid="uid://bgmpd6vng351f"]
+
+[ext_resource type="Texture2D" uid="uid://b4juejyqjq0xt" path="res://assets/Cylinder_Empty0.png" id="1_mtgl6"]
+[ext_resource type="Script" path="res://scripts/GunCylinder.gd" id="1_tseu2"]
+[ext_resource type="Texture2D" uid="uid://64qgkhxl3gfg" path="res://assets/1Bullet/1Bullet1.png" id="2_hdtev"]
+[ext_resource type="Texture2D" uid="uid://ff3304f6q3fk" path="res://assets/2Bullet/2Bullet1.png" id="3_cjbs0"]
+[ext_resource type="Texture2D" uid="uid://b0qf4f6kj1q4" path="res://assets/3Bullet/3Bullet1.png" id="4_2kgox"]
+[ext_resource type="Texture2D" uid="uid://h0t225dybq7b" path="res://assets/4Bullet/4Bullet1.png" id="5_oxh5b"]
+[ext_resource type="Texture2D" uid="uid://bpgcgltke7qg8" path="res://assets/5Bullet/5Bullet1.png" id="6_1bm3b"]
+[ext_resource type="Texture2D" uid="uid://cclhe847afvsg" path="res://assets/6Bullet/6Bullet1.png" id="7_ac35k"]
+[ext_resource type="Texture2D" uid="uid://cap76s8o4ofk2" path="res://assets/6Bullet/6Bullet2.png" id="8_2wqkq"]
+[ext_resource type="Texture2D" uid="uid://rou165dc7e1d" path="res://assets/6Bullet/6Bullet3.png" id="9_wxuyg"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fw8ky"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_mtgl6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_hdtev")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_cjbs0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_2kgox")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_oxh5b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_1bm3b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_ac35k")
+}],
+"loop": false,
+"name": &"Loading",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_ac35k")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_2wqkq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_wxuyg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_ac35k")
+}],
+"loop": false,
+"name": &"Revolve",
+"speed": 15.0
+}]
+
+[node name="GunCylinder" type="Node2D"]
+script = ExtResource("1_tseu2")
+
+[node name="Cylinder_Loading" type="AnimatedSprite2D" parent="."]
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_fw8ky")
+animation = &"Loading"
+
+[node name="Cylinder_Loaded_Revolve" type="AnimatedSprite2D" parent="."]
+visible = false
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_fw8ky")
+animation = &"Revolve"
+frame = 3
+frame_progress = 1.0
+
+[connection signal="animation_finished" from="Cylinder_Loaded_Revolve" to="." method="_on_cylinder_loaded_revolve_animation_finished"]

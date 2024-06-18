@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://dqjml7aieqyst"]
+
+[ext_resource type="Texture2D" uid="uid://3qhkvcl2whjm" path="res://assets/Bandolier.png" id="1_nvsrt"]
+[ext_resource type="Script" path="res://scripts/Deck.gd" id="1_qd4cq"]
+
+[node name="Deck" type="Node2D"]
+script = ExtResource("1_qd4cq")
+
+[node name="DeckSprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_nvsrt")
+
+[node name="CardsInDeckLabel" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -38.0
+offset_top = -173.0
+offset_right = 9.0
+offset_bottom = -150.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+size_flags_horizontal = 4
+text = "00/00"
+horizontal_alignment = 1
