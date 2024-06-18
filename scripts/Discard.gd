@@ -18,7 +18,7 @@ func _ready():
 	cardsInDiscardLabel.text = str(totalCardsInDiscard)
 
 
-func appendDiscardPile(discardPile, bullet):	
+func appendDiscardPile(discardPile, bullet):
 	discardPile.append(bullet)
 	updateDiscardValue()
 

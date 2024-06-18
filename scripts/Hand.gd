@@ -13,6 +13,7 @@ signal button6_pressed(bullet6)
 signal button7_pressed(bullet7)
 signal button8_pressed(bullet8)
 signal timeout
+signal initiateHand
 
 func _ready():
 	pass
@@ -20,6 +21,16 @@ func _ready():
 func _process(delta):
 	pass
 
+func bulletToDiscardPile(bullet, indexInHand, discardPile):
+	bulletsInHand[indexInHand].visible = false
+	
+	discardPile.appendDiscardPile(discardPile.bullets, bullet)
+
+func discardRemainingBulletsInHand(discardPile):
+	for bulletNode in bulletsInHand:
+		if !bulletNode.isLoaded:
+			print("Bullet in hand index %s moved to discard pile" % bulletNode.handIndex)
+			bulletToDiscardPile(bulletNode.bullet, bulletNode.handIndex, discardPile)
 
 func showHands():
 	timer.start()
@@ -77,3 +88,16 @@ func _on_timer_timeout():
 		counter = 0
 	else:
 		timer.start()
+
+func draw8Cards(playerDeck):
+	for n in 8:
+			#Assign bullets from deck to each bulletButtons
+		bulletsInHand[n].bullet = playerDeck.bullets[n]
+			#Assign handIndex to each bullet in hand
+		bulletsInHand[n].handIndex = n
+			#Change bullet status to "isNotLoaded"
+		bulletsInHand[n].isLoaded = false
+		
+		print("Draw %s to hand index %d" % [bulletsInHand[n].bullet.name, bulletsInHand[n].handIndex])
+	showHands()
+	enableAllBullets()

@@ -98,3 +98,27 @@ func shoot(enemy, hand, discardPile, endTurnButton, drawButton):
 
 func _on_cylinder_loaded_revolve_animation_finished():
 	emit_signal("cylinderLoadedRevolveAnimFinished")
+
+func _on_hand_button_1_pressed(bullet1):
+	loadBullet(bullet1)
+
+func _on_hand_button_2_pressed(bullet2):
+	loadBullet(bullet2)
+
+func _on_hand_button_3_pressed(bullet3):
+	loadBullet(bullet3)
+
+func _on_hand_button_4_pressed(bullet4):
+	loadBullet(bullet4)
+
+func _on_hand_button_5_pressed(bullet5):
+	loadBullet(bullet5)
+
+func _on_hand_button_6_pressed(bullet6):
+	loadBullet(bullet6)
+
+func _on_hand_button_7_pressed(bullet7):
+	loadBullet(bullet7)
+
+func _on_hand_button_8_pressed(bullet8):
+	loadBullet(bullet8)
