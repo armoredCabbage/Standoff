@@ -17,7 +17,6 @@ signal drawCards
 func _ready():
 	cardsInDiscardLabel.text = str(totalCardsInDiscard)
 
-
 func appendDiscardPile(discardPile, bullet):
 	discardPile.append(bullet)
 	updateDiscardValue()
@@ -25,11 +24,9 @@ func appendDiscardPile(discardPile, bullet):
 func updateDiscardValue():
 	cardsInDiscardLabel.text = str(bullets.size())
 
-
 func discardToDeck(deck):
 	for bullet in bullets:
 		deck.append(bullet)
-
 
 func _on_timer_timeout():
 	counter+=1
