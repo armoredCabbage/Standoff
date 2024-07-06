@@ -3,10 +3,16 @@
     "res://data/bullets/": {
       "resource_local_to_scene": true,
       "resource_name": true
+    },
+    "res://data/characters/": {
+      "resource_local_to_scene": true,
+      "resource_name": true
     }
   },
   "recent_paths": [
-    "res://data/bullets/"
+    "res://data/bullets/",
+    "res://data/characters/desperado/",
+    "res://data/characters/"
   ],
   "table_functions": {
     "filter": [

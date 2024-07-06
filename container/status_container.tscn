@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://d0p4lkx7usvkx"]
+
+[node name="StatusContainer" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -121.0
+offset_top = 130.0
+offset_right = 121.0
+offset_bottom = 207.0
+
+[node name="GridContainer" type="GridContainer" parent="."]
+layout_mode = 1
+offset_left = 19.0
+offset_right = 1047.0
+offset_bottom = 505.0
+scale = Vector2(0.2, 0.2)
+columns = 6

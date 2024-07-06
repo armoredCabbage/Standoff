@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Effect" load_steps=2 format=3 uid="uid://bs2lto805ymml"]
+
+[ext_resource type="Script" path="res://data/effect.gd" id="1_50c4m"]
+
+[resource]
+script = ExtResource("1_50c4m")
+name = "Dodge"
+description = "Chance to get hit 50%"
+type = "decToHit"
+value = 0.5
+period = 1

@@ -1,6 +1,7 @@
 extends Node2D
 
 @export var enemy:Character
+@export var intention:Dictionary
 @onready var enemyNameLabel = $EnemyName
 @onready var enemyHPLabel = $EnemyHP
 
@@ -10,7 +11,6 @@ extends Node2D
 func _ready():
 	enemyNameLabel.text = enemy.name
 	enemyHPLabel.text = "%d / %d" % [currentEnemyHP, enemy.healthPoint]
-
 
 func calculateDamage(damageDealt):
 	currentEnemyHP -= damageDealt

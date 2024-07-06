@@ -1,0 +1,10 @@
+[gd_scene load_steps=4 format=3 uid="uid://b2bdfvhhmt00v"]
+
+[ext_resource type="Script" path="res://data/intentions/desperado_attack_intention.gd" id="1_3k8mk"]
+[ext_resource type="PackedScene" uid="uid://bqnrnhlv8wglj" path="res://intention_UI/enemy_attack_intention_UI.tscn" id="1_l7mra"]
+[ext_resource type="Resource" uid="uid://cw226jhjgqnmh" path="res://data/intentions/intentions_list/desperado_attack_intention.tres" id="2_fayvy"]
+
+[node name="DesperadoAttackIntention" type="Node2D"]
+script = ExtResource("1_3k8mk")
+intentionUIScene = ExtResource("1_l7mra")
+intention = ExtResource("2_fayvy")

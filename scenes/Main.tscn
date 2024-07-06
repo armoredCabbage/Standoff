@@ -1,11 +1,13 @@
-[gd_scene load_steps=15 format=3 uid="uid://cnw7neuqlhsd7"]
+[gd_scene load_steps=17 format=3 uid="uid://cnw7neuqlhsd7"]
 
 [ext_resource type="Script" path="res://scripts/Main.gd" id="1_l4glu"]
-[ext_resource type="Texture2D" uid="uid://ds4ppgi0g0i76" path="res://assets/HP_Bar_Placeholder.png" id="11_1q704"]
-[ext_resource type="Resource" uid="uid://dtou5fr85rka0" path="res://data/bullets/standard_bullet.tres" id="13_2k8jg"]
+[ext_resource type="PackedScene" uid="uid://cdy6gy43kn4aq" path="res://data/characters/desperado1/desperado1.tscn" id="2_nkpit"]
+[ext_resource type="Texture2D" uid="uid://dbenhq70f1m10" path="res://assets/BGVar3.png" id="3_h0ocv"]
+[ext_resource type="Resource" uid="uid://cwev4kyhnygw1" path="res://data/bullets/fullmetal_bullet.tres" id="5_p0jlu"]
+[ext_resource type="PackedScene" uid="uid://bxnoduisayuhd" path="res://data/characters/player/player.tscn" id="14_fybkx"]
 [ext_resource type="PackedScene" uid="uid://bgmpd6vng351f" path="res://scenes/GunCylinder.tscn" id="14_q02dn"]
-[ext_resource type="Resource" uid="uid://cwev4kyhnygw1" path="res://data/bullets/fullmetal_bullet.tres" id="15_74l3a"]
-[ext_resource type="PackedScene" uid="uid://d0sxag724tq58" path="res://scenes/Enemy.tscn" id="15_pwu8p"]
+[ext_resource type="PackedScene" uid="uid://bts07eooqx45e" path="res://scenes/RewardScreen.tscn" id="15_vw2ac"]
+[ext_resource type="Resource" uid="uid://drmu45xygkgvl" path="res://data/characters/player_attributes.tres" id="16_6d4k0"]
 [ext_resource type="PackedScene" uid="uid://dqjml7aieqyst" path="res://scenes/Deck.tscn" id="16_ou7be"]
 [ext_resource type="PackedScene" uid="uid://yine14m7efuu" path="res://scenes/Discard.tscn" id="17_8wsft"]
 [ext_resource type="PackedScene" uid="uid://dvj2w33sog2yo" path="res://scenes/Hand.tscn" id="18_5xkuh"]
@@ -16,13 +18,14 @@
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="22_g3e81"]
 
 [node name="MainScreen" type="Node2D"]
-scale = Vector2(0.5, 0.5)
 script = ExtResource("1_l4glu")
+enemyScene = ExtResource("2_nkpit")
 
-[node name="HpBarPlaceholder" type="Sprite2D" parent="."]
-position = Vector2(960, 1032)
+[node name="Background" type="TextureRect" parent="."]
+offset_right = 960.0
+offset_bottom = 540.0
 scale = Vector2(2, 2)
-texture = ExtResource("11_1q704")
+texture = ExtResource("3_h0ocv")
 
 [node name="DrawButton" type="Button" parent="."]
 offset_left = 1101.0
@@ -40,22 +43,19 @@ offset_bottom = 772.0
 focus_mode = 0
 text = "E N D  T U R N"
 
-[node name="Enemy" parent="." instance=ExtResource("15_pwu8p")]
-position = Vector2(960, 270)
-scale = Vector2(1.5, 1.5)
-
 [node name="Deck" parent="." instance=ExtResource("16_ou7be")]
 position = Vector2(1812, 910)
-bullets = Array[Resource("res://data/bullets.gd")]([ExtResource("13_2k8jg"), ExtResource("13_2k8jg"), ExtResource("13_2k8jg"), ExtResource("13_2k8jg"), ExtResource("15_74l3a"), ExtResource("15_74l3a"), ExtResource("15_74l3a"), ExtResource("15_74l3a"), ExtResource("13_2k8jg"), ExtResource("13_2k8jg"), ExtResource("13_2k8jg"), ExtResource("13_2k8jg"), ExtResource("15_74l3a"), ExtResource("15_74l3a"), ExtResource("15_74l3a"), ExtResource("15_74l3a")])
+bullets = Array[Resource("res://data/bullets.gd")]([ExtResource("5_p0jlu"), ExtResource("5_p0jlu"), ExtResource("5_p0jlu"), ExtResource("5_p0jlu"), ExtResource("5_p0jlu"), ExtResource("5_p0jlu"), ExtResource("5_p0jlu"), ExtResource("5_p0jlu")])
 
 [node name="Discard" parent="." instance=ExtResource("17_8wsft")]
 position = Vector2(157, 954)
 scale = Vector2(1.5, 1.5)
 
 [node name="Hand" parent="." instance=ExtResource("18_5xkuh")]
-position = Vector2(960, 907)
+position = Vector2(960, 910)
 
 [node name="StateChartDebugger" parent="." instance=ExtResource("22_g3e81")]
+visible = false
 offset_left = 1412.0
 offset_top = 20.0
 offset_right = 1902.0
@@ -108,14 +108,73 @@ delay_in_seconds = "0.0"
 [node name="PlayerEndTurn" type="Node" parent="StateChart/TurnPhase"]
 script = ExtResource("20_kdjk2")
 
-[node name="ToPlayerUpkeep" type="Node" parent="StateChart/TurnPhase/PlayerEndTurn"]
+[node name="ToEnemyUpkeep" type="Node" parent="StateChart/TurnPhase/PlayerEndTurn"]
+script = ExtResource("21_p1pmc")
+to = NodePath("../../EnemyUpkeep")
+event = &"playerEndturn_finished"
+delay_in_seconds = "0.0"
+
+[node name="EnemyUpkeep" type="Node" parent="StateChart/TurnPhase"]
+script = ExtResource("20_kdjk2")
+
+[node name="toEnemyExecIntention" type="Node" parent="StateChart/TurnPhase/EnemyUpkeep"]
+script = ExtResource("21_p1pmc")
+to = NodePath("../../EnemyExecIntention")
+event = &"enemyUpkeep_finished"
+delay_in_seconds = "0.0"
+
+[node name="EnemyExecIntention" type="Node" parent="StateChart/TurnPhase"]
+script = ExtResource("20_kdjk2")
+
+[node name="toEnemyEndTurn" type="Node" parent="StateChart/TurnPhase/EnemyExecIntention"]
+script = ExtResource("21_p1pmc")
+to = NodePath("../../EnemyEndTurn")
+event = &"enemyExecIntention_finished"
+delay_in_seconds = "0.0"
+
+[node name="EnemyEndTurn" type="Node" parent="StateChart/TurnPhase"]
+script = ExtResource("20_kdjk2")
+
+[node name="toPlayerUpkeep" type="Node" parent="StateChart/TurnPhase/EnemyEndTurn"]
 script = ExtResource("21_p1pmc")
 to = NodePath("../../PlayerUpkeep")
-event = &"endturn_finished"
+event = &"enemyEndTurn_finished"
 delay_in_seconds = "0.0"
 
 [node name="GunCylinder" parent="." instance=ExtResource("14_q02dn")]
 position = Vector2(960, 666)
+
+[node name="Player" parent="." instance=ExtResource("14_fybkx")]
+position = Vector2(960, 1034)
+scale = Vector2(2.125, 2.125)
+character = ExtResource("16_6d4k0")
+
+[node name="OpacityLayer" type="ColorRect" parent="."]
+visible = false
+z_index = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.145098, 0.145098, 0.145098, 0.92549)
+
+[node name="RewardScreen" parent="." instance=ExtResource("15_vw2ac")]
+process_mode = 2
+visible = false
+z_index = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 960.0
+offset_top = 540.0
+offset_right = 960.0
+offset_bottom = 540.0
+scale = Vector2(1.2, 1.2)
 
 [connection signal="pressed" from="DrawButton" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="EndTurnButton" to="." method="_on_end_turn_button_pressed"]
@@ -134,5 +193,9 @@ position = Vector2(960, 666)
 [connection signal="state_entered" from="StateChart/TurnPhase/PlayerUpkeep" to="." method="_on_player_upkeep_state_entered"]
 [connection signal="state_entered" from="StateChart/TurnPhase/PlayerDraw" to="." method="_on_player_draw_state_entered"]
 [connection signal="state_entered" from="StateChart/TurnPhase/PlayerReload" to="." method="_on_player_reload_state_entered"]
+[connection signal="state_entered" from="StateChart/TurnPhase/EnemyUpkeep" to="." method="_on_enemy_upkeep_state_entered"]
+[connection signal="state_entered" from="StateChart/TurnPhase/EnemyExecIntention" to="." method="_on_enemy_exec_intention_state_entered"]
+[connection signal="state_entered" from="StateChart/TurnPhase/EnemyEndTurn" to="." method="_on_enemy_end_turn_state_entered"]
 [connection signal="all_bullets_shot" from="GunCylinder" to="." method="_on_gun_cylinder_all_bullets_shot"]
 [connection signal="cylinderLoadedRevolveAnimFinished" from="GunCylinder" to="." method="_on_gun_cylinder_cylinder_loaded_revolve_anim_finished"]
+[connection signal="continuePressed" from="RewardScreen" to="." method="_on_reward_screen_continue_pressed"]

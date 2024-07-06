@@ -25,10 +25,18 @@ run/main_scene="res://scenes/Main.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Encounter="*res://data/global/encounter.gd"
+EnemyList="*res://data/global/enemyList.gd"
+SceneTransition="*res://scenes/SceneTransition.tscn"
+LevelProgress="*res://scenes/LevelProgress.tscn"
+
 [display]
 
-window/size/viewport_width=960
-window/size/viewport_height=540
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/size/mode=3
 window/size/initial_position_type=2
 window/stretch/mode="viewport"
 

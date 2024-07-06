@@ -1,0 +1,80 @@
+[gd_scene load_steps=2 format=3 uid="uid://bts07eooqx45e"]
+
+[ext_resource type="Script" path="res://scripts/RewardScreen.gd" id="1_sy7bl"]
+
+[node name="RewardScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_sy7bl")
+
+[node name="Rewards" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -224.0
+offset_top = -332.0
+offset_right = 224.0
+offset_bottom = 332.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.215902, 0.215902, 0.215902, 1)
+
+[node name="Container" type="HFlowContainer" parent="Rewards"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.228828
+anchor_top = 0.162963
+anchor_right = 0.591328
+anchor_bottom = 0.866667
+offset_left = -167.221
+offset_top = -81.8741
+offset_right = 245.379
+offset_bottom = 29.7554
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="RewardLabel" type="Label" parent="Rewards/Container"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 46
+text = "R E W A R D S"
+horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="Rewards/Container"]
+layout_mode = 2
+theme_override_constants/margin_left = 150
+theme_override_constants/margin_top = 200
+theme_override_constants/margin_right = 150
+theme_override_constants/margin_bottom = 200
+
+[node name="RewardsContainer" type="GridContainer" parent="Rewards/Container/MarginContainer"]
+layout_mode = 2
+columns = 3
+
+[node name="Button2" type="Button" parent="Rewards/Container/MarginContainer/RewardsContainer"]
+layout_mode = 2
+text = "REWARD 1"
+
+[node name="Button3" type="Button" parent="Rewards/Container/MarginContainer/RewardsContainer"]
+layout_mode = 2
+text = "REWARD 2"
+
+[node name="Button4" type="Button" parent="Rewards/Container/MarginContainer/RewardsContainer"]
+layout_mode = 2
+text = "REWARD 3"
+
+[node name="ContinueButton" type="Button" parent="Rewards/Container"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 37
+text = " CONTINUE "
+
+[connection signal="pressed" from="Rewards/Container/ContinueButton" to="." method="_on_continue_button_pressed"]

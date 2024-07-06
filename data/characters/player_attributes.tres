@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Character" load_steps=2 format=3 uid="uid://drmu45xygkgvl"]
+
+[ext_resource type="Script" path="res://data/characters.gd" id="1_kekfl"]
+
+[resource]
+script = ExtResource("1_kekfl")
+name = "PlayerName"
+type = "player"
+healthPoint = 20
+listIntentions = Array[Resource("res://data/enemy_intention.gd")]([])
+toHitChance = 1.0
+buffs = Array[Resource("res://data/effect.gd")]([])

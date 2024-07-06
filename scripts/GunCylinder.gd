@@ -16,11 +16,9 @@ func getCylinderLoading():
 func getCylinderLoadedRevolce():
 	return cylinderLoadedRevolve
 
-
 func resetCylinderState(drawButton):
 	bullets.clear()
 	showCylinderLoadingState(drawButton)
-
 
 func showCylinderLoadingState(drawButton):
 	getCylinderLoading().visible = true
@@ -49,6 +47,8 @@ func unloadBullet(hand):
 		var lastIndex = bullets.size() -1
 		var indexInHand = bullets[lastIndex].handIndex
 		
+		bullets[lastIndex].isLoaded = false
+		
 		hand.bulletsInHand[indexInHand].visible = true
 		bullets.pop_at(lastIndex)
 
@@ -67,7 +67,21 @@ func applyBulletEffect(enemy):
 		'attack':
 			enemy.calculateDamage(currentBullet.power)
 
-func shoot(enemy, hand, discardPile, endTurnButton, drawButton):
+func applyBuffs(player, target):
+	if !buffIsEmpty(target):
+		for buff in target.character.buffs:
+			if buff.name == "Dodge":
+				setToHitChance(player, buff.value)
+
+func setToHitChance(currentValue, newValue):
+	currentValue = newValue
+
+func buffIsEmpty(target):
+	if target.character.buffs.is_empty():
+		return true
+	return false
+
+func shoot(player, target, hand, discardPile, endTurnButton, drawButton):
 	if revolveAnimationCounter == 6:
 		cylinderLoadedRevolve.stop()
 		revolveAnimationCounter = 0
@@ -75,26 +89,41 @@ func shoot(enemy, hand, discardPile, endTurnButton, drawButton):
 		
 		endTurnButton.visible = true
 		resetCylinderState(drawButton)
-		print("Bullets in hand is %d" % hand.bulletsInHand.size())
+		#print("Bullets in hand is %d" % hand.bulletsInHand.size())
+		print("----------------------------------------------------")
 		#changeState()
 		emit_signal("all_bullets_shot")
 		
 	elif bullets.size() == 6 and revolveAnimationCounter != 6:
+		var rng = RandomNumberGenerator.new()
 		var currentBullet = bullets[cylinderIndex].bullet
 		var indexInHand = bullets[cylinderIndex].handIndex
+		var toHitChance = player.character.toHitChance
 		
-		print("Shooting %s in Cylinder index %d" % [currentBullet.name, cylinderIndex])
-		print("Dealt %d damage" % currentBullet.power)
-		print("\n")
-		
-		applyBulletEffect(enemy)
-		
-		cylinderLoadedRevolve.play("Revolve")
-		cylinderIndex+=1
-		revolveAnimationCounter+=1
-		
-		discardPile.appendDiscardPile(discardPile.bullets, currentBullet)
-		#hand.bulletsInHand.pop_at(indexInHand)
+		if !target.buffs.is_empty():
+			for buff in target.buffs:
+				if buff.intention.name == "Dodge":
+					toHitChance = buff.getDodgeEffect().value
+		print("To hit chance %f" % toHitChance)
+		if snapped(rng.randf(), 0.01) <= toHitChance:
+			print("Shooting %s in Cylinder index %d" % [currentBullet.name, cylinderIndex])
+			print("Dealt %d damage" % currentBullet.power)
+			
+			applyBulletEffect(target)
+			
+			cylinderLoadedRevolve.play("Revolve")
+			cylinderIndex+=1
+			revolveAnimationCounter+=1
+			
+			discardPile.appendDiscardPile(discardPile.bullets, currentBullet)
+		else:
+			print("Miss! (Player)")
+			
+			cylinderLoadedRevolve.play("Revolve")
+			cylinderIndex+=1
+			revolveAnimationCounter+=1
+			
+			discardPile.appendDiscardPile(discardPile.bullets, currentBullet)
 
 func _on_cylinder_loaded_revolve_animation_finished():
 	emit_signal("cylinderLoadedRevolveAnimFinished")

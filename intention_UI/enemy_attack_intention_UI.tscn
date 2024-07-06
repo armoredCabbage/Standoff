@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://bqnrnhlv8wglj"]
+
+[ext_resource type="Script" path="res://intention_UI/enemy_attack_intention_UI.gd" id="1_01oy4"]
+[ext_resource type="Texture2D" uid="uid://d4fyyqvs3txp" path="res://icon.svg" id="1_t8lx5"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_2rmp3"]
+
+[node name="IntentionUi" type="Node2D"]
+script = ExtResource("1_01oy4")
+
+[node name="IntentionSprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_t8lx5")
+
+[node name="IntentionValue" type="Label" parent="."]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -41.0
+offset_top = 47.0
+offset_right = 44.0
+offset_bottom = 93.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+theme_override_font_sizes/font_size = 23
+text = "0 X 0"
+label_settings = SubResource("LabelSettings_2rmp3")
+horizontal_alignment = 1
+vertical_alignment = 1

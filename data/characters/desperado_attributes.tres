@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Character" load_steps=4 format=3 uid="uid://dxxfdbprsp443"]
+
+[ext_resource type="Resource" uid="uid://cw226jhjgqnmh" path="res://data/intentions/intentions_list/desperado_attack_intention.tres" id="1_mj54g"]
+[ext_resource type="Resource" uid="uid://cykxv1ils1opr" path="res://data/intentions/intentions_list/desperado_dodge_intention.tres" id="2_cf24m"]
+[ext_resource type="Script" path="res://data/characters.gd" id="3_egm5t"]
+
+[resource]
+script = ExtResource("3_egm5t")
+name = "Desperado"
+type = "enemy"
+healthPoint = 20
+listIntentions = Array[Resource("res://data/enemy_intention.gd")]([ExtResource("1_mj54g"), ExtResource("2_cf24m")])
+toHitChance = 0.75
+buffs = Array[Resource("res://data/effect.gd")]([])

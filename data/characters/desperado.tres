@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="Character" load_steps=2 format=3 uid="uid://14mmunythavs"]
-
-[ext_resource type="Script" path="res://data/characters.gd" id="1_lbwg8"]
-
-[resource]
-script = ExtResource("1_lbwg8")
-name = "Desperado"
-type = "enemy"
-healthPoint = 20

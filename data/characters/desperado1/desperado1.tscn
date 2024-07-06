@@ -1,0 +1,109 @@
+[gd_scene load_steps=12 format=3 uid="uid://cdy6gy43kn4aq"]
+
+[ext_resource type="Script" path="res://data/characters/desperado1/desperado1.gd" id="1_rgwvh"]
+[ext_resource type="Texture2D" uid="uid://d4fyyqvs3txp" path="res://icon.svg" id="2_1qoh3"]
+[ext_resource type="Resource" uid="uid://p7iwd5rjiqe1" path="res://data/characters/desperado1_attributes.tres" id="2_af3ip"]
+[ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="3_1300o"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="4_ptu3y"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="5_3tca3"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="6_in7kw"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="7_qkkxh"]
+[ext_resource type="PackedScene" uid="uid://d0p4lkx7usvkx" path="res://container/status_container.tscn" id="8_s7k1n"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_6vq4u"]
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_822lo"]
+bg_color = Color(0.819608, 0, 0.14902, 1)
+
+[node name="Desperado1" type="Node2D"]
+script = ExtResource("1_rgwvh")
+character = ExtResource("2_af3ip")
+
+[node name="EnemySprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_1qoh3")
+
+[node name="EnemyNameLabel" type="Label" parent="."]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = 71.0
+offset_right = 20.0
+offset_bottom = 94.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "EnemyName"
+label_settings = SubResource("LabelSettings_6vq4u")
+
+[node name="EnemyHealthBar" type="ProgressBar" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = 96.0
+offset_right = 126.0
+offset_bottom = 123.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_822lo")
+max_value = 20.0
+step = 1.0
+value = 20.0
+rounded = true
+
+[node name="StateChartDebugger" parent="." instance=ExtResource("3_1300o")]
+offset_left = -512.0
+offset_top = -62.0
+offset_right = -122.0
+offset_bottom = 67.0
+initial_node_to_watch = NodePath("../StateChart")
+
+[node name="StateChart" type="Node" parent="."]
+script = ExtResource("4_ptu3y")
+
+[node name="DesperadoState" type="Node" parent="StateChart"]
+script = ExtResource("5_3tca3")
+initial_state = NodePath("DesperadoInit")
+
+[node name="DesperadoInit" type="Node" parent="StateChart/DesperadoState"]
+script = ExtResource("6_in7kw")
+
+[node name="ToAttack" type="Node" parent="StateChart/DesperadoState/DesperadoInit"]
+script = ExtResource("7_qkkxh")
+to = NodePath("../../DesperadoAttack")
+event = &"toAttack"
+delay_in_seconds = "0.0"
+
+[node name="DesperadoAttack" type="Node" parent="StateChart/DesperadoState"]
+script = ExtResource("6_in7kw")
+
+[node name="ToDodge" type="Node" parent="StateChart/DesperadoState/DesperadoAttack"]
+script = ExtResource("7_qkkxh")
+to = NodePath("../../DesperadoDodge")
+event = &"toDodge"
+delay_in_seconds = "0.0"
+
+[node name="DesperadoDodge" type="Node" parent="StateChart/DesperadoState"]
+script = ExtResource("6_in7kw")
+
+[node name="ToAttack" type="Node" parent="StateChart/DesperadoState/DesperadoDodge"]
+script = ExtResource("7_qkkxh")
+to = NodePath("../../DesperadoAttack")
+event = &"toAttack"
+delay_in_seconds = "0.0"
+
+[node name="Intention" type="Node2D" parent="."]
+position = Vector2(0, -111)
+
+[node name="StatusContainer" parent="." instance=ExtResource("8_s7k1n")]
+
+[connection signal="action_finished" from="." to="." method="_on_action_finished"]
+[connection signal="state_entered" from="StateChart/DesperadoState/DesperadoInit" to="." method="_on_desperado_init_state_entered"]
+[connection signal="state_entered" from="StateChart/DesperadoState/DesperadoAttack" to="." method="_on_desperado_attack_state_entered"]
+[connection signal="state_exited" from="StateChart/DesperadoState/DesperadoAttack" to="." method="_on_desperado_attack_state_exited"]
+[connection signal="state_entered" from="StateChart/DesperadoState/DesperadoDodge" to="." method="_on_desperado_dodge_state_entered"]
+[connection signal="state_exited" from="StateChart/DesperadoState/DesperadoDodge" to="." method="_on_desperado_dodge_state_exited"]

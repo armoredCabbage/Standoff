@@ -1,0 +1,10 @@
+[gd_scene load_steps=4 format=3 uid="uid://qioemcxlcacq"]
+
+[ext_resource type="Script" path="res://data/intentions/desperado_dodge_intention.gd" id="1_0ehvt"]
+[ext_resource type="PackedScene" uid="uid://cytjnr75ws5i2" path="res://intention_UI/enemy_dodge_intention_UI.tscn" id="2_u2s3h"]
+[ext_resource type="Resource" uid="uid://cykxv1ils1opr" path="res://data/intentions/intentions_list/desperado_dodge_intention.tres" id="3_ogf2r"]
+
+[node name="DesperadoDodgeIntention" type="Node2D"]
+script = ExtResource("1_0ehvt")
+intentionUIScene = ExtResource("2_u2s3h")
+intention = ExtResource("3_ogf2r")
